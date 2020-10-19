@@ -126,7 +126,7 @@ class App extends Component {
                         <h3>{nute.nutle}</h3>
                         <p>{nute.body}</p>
                         <p>
-                          {nute.user === this.state.user.displayName || nute.user === this.state.user.email ?
+                          {nute.user === this.state.user.email ?
                             <button onClick={() => this.removeNute(nute.id)}>Remove Nute</button> : null
                           }
                         </p>
