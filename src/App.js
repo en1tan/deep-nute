@@ -10,15 +10,12 @@ class App extends Component {
       body: '',
       nutes: [],
       user: null,
-
+      userId: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-
-    // Firebase
-
   }
 
   // AuthFunctions
@@ -26,18 +23,15 @@ class App extends Component {
     auth.signInWithPopup(provider)
       .then((result) => {
         const user = result.user;
-        this.setState({
-          user
-        });
+        this.setState({user, userId: user.uid});
       });
   }
 
   logout() {
     auth.signOut()
       .then(() => {
-        this.setState({
-          user: null
-        });
+        this.setState({ user: null });
+        this.setState({nutes: []})
       });
   }
 
@@ -49,12 +43,10 @@ class App extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const nutesRef = firebase.database().ref('nutes');
-    this.setState({ canSubmit: true });
+    const nutesRef = firebase.database().ref(`nutes/${this.state.userId}`);
     const nute = {
       nutle: this.state.nutle,
-      body: this.state.body,
-      user: this.state.user.displayName || this.state.user.email
+      body: this.state.body
     }
     nutesRef.push(nute);
     this.setState({
@@ -64,20 +56,20 @@ class App extends Component {
   }
 
   removeNute(nuteId) {
-    const nuteRef = firebase.database().ref(`/nutes/${nuteId}`);
+    const nuteRef = firebase.database().ref(`nutes/${this.state.userId}/${nuteId}`);
     nuteRef.remove();
   }
 
   componentDidMount() {
-    const nutesRef = firebase.database().ref('nutes');
+    const nutesRef = firebase.database().ref(`nutes/${this.state.userId}`);
     nutesRef.on('value', (snapshot) => {
-      let nutes = snapshot.val();
+      let nutes = snapshot.val()[this.state.userId];
       let newState = [];
       for (let nute in nutes) {
         newState.push({
           id: nute,
           nutle: nutes[nute].nutle,
-          body: nutes[nute].body
+          body: nutes[nute].body,
         });
       }
       this.setState({
@@ -86,7 +78,7 @@ class App extends Component {
     });
     auth.onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user, username: user.displayName });
+        this.setState({user, userId: user.uid });
       }
     })
   }
@@ -126,9 +118,7 @@ class App extends Component {
                         <h3>{nute.nutle}</h3>
                         <p>{nute.body}</p>
                         <p>
-                          {nute.user === this.state.user.email ?
-                            <button onClick={() => this.removeNute(nute.id)}>Remove Nute</button> : null
-                          }
+                            <button onClick={() => this.removeNute(nute.id)}>Remove Nute</button>
                         </p>
                       </li>
                     )
