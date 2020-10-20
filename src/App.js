@@ -32,8 +32,7 @@ class App extends Component {
   logout() {
     auth.signOut()
       .then(() => {
-        this.setState({ user: null });
-        this.setState({nutes: []})
+        this.setState({ user: null })
       });
   }
 
