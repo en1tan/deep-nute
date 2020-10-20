@@ -1,4 +1,6 @@
+import { Transition } from "@headlessui/react";
 import React, { Component } from "react";
+import { Navbar } from './components/navbar';
 import firebase, {auth, provider} from './firebase';
 
 class App extends Component {
@@ -84,53 +86,60 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="app">
+      <div onClick={this.toggleMenu}>
+      {this.state.user ?
+        <>
         <header>
-          <div className="wrapper">
-            <h1>Deep Nute</h1>
-            {this.state.user ?
-              <button onClick={this.logout}>Log Out</button>
-              :
-              <button onClick={this.login}>Log In</button>
-          }
-          </div>
+          <Navbar user={this.state.user} logout={this.logout} />
         </header>
 
-        {this.state.user ?
           <div>
-            <div className="user-profile">
-              <img src={this.state.user.photoURL} alt={this.state.user.username} />
-            </div>
-            <div className="container">
-              <section className="add-item">
+            <div className="pt-4 flex flex-wrap justify-center h-auto bg-gradient-to-b from-purple-200 to-purple-400">
+              <section className="w-full rounded rounded-md p-2 ml-20 mr-20 border border-4 border-gray shadow shadow-lg bg-gray-100">
                 <form onSubmit={this.handleSubmit}>
-                  <input type="text" name="nutle" placeholder="Nutle..." value={this.state.nutle} onChange={this.handleChange}/>
-                  <textarea name="body" placeholder="Body..." value={this.state.body} onChange={this.handleChange} ></textarea>
-                  <button>Add Nute</button>
+                  <input className="w-full mt-2 form-input border border-2 border-gray-500 placeholder-gray-800" type="text" name="nutle" placeholder="Nutle..." value={this.state.nutle} onChange={this.handleChange}/>
+                  <textarea className="w-full mt-2 form-textarea border border-2 border-gray-500 placeholder-gray-800" name="body" placeholder="Body..." value={this.state.body} onChange={this.handleChange} ></textarea>
+                  <button className="p-2 w-auto bg-white text-gray-700 border border-0 border-gray-500  hover:border-2 hover:border-white hover:bg-gray-700 hover:text-white rounded rounded-md">Add Nute</button>
                 </form>
               </section>
-            <section className="display-item">
-              <div className="wrapper">
-                <ul>
+              <section>
+              <div className="m-20 relative mt-4">
+                <ul className="grid grid-cols-4 justify-center">
                   {this.state.nutes.map((nute) => {
                     return (
-                      <li key={nute.id}>
-                        <h3>{nute.nutle}</h3>
-                        <p>{nute.body}</p>
+                      <Transition
+                        show={true}
+                        enter="transition ease-out duration-300 transform"
+                        enterFrom="opacity-0 scale-95"
+                        enterTo="opacity-100 scale-100"
+                        leave="transition ease-in duration-100 tranform"
+                        leaveFrom="opacity-100 scale-100"
+                        leaveTo="opacity-0 scale-95"
+                        className="mx-2"
+                      >
+                        {(ref) => (
+
+                          <li ref={ref} key={nute.id} className="col-auto h-auto w-full bg-gray-300 m-2 p-2 rounded rounded-md border border-4 border-gray-600 shadow-md">
+                            <h3 className={`rounded rounded-lg h-10 pt-2 align-middle text-lg text-center font-bold bg-gray-100 shadow shadow-md ${nute.nutle !== "" ? "block" : "hidden"}`}>{nute.nutle}</h3>
+                        <p className="text-xl p-2">{nute.body}</p>
                         <p>
-                            <button onClick={() => this.removeNute(nute.id)}>Remove Nute</button>
+                            <button className="text-xs float-right relative origin-bottom-right right-0 p-1 w-auto bg-white text-gray-700 border border-0 border-gray-500  hover:border-2 hover:border-white hover:bg-gray-700 hover:text-white rounded rounded-md" onClick={() => this.removeNute(nute.id)}>Remove Nute</button>
                         </p>
                       </li>
+                        )}
+                      </Transition>
                     )
                   })}
                 </ul>
               </div>
-            </section>
-                  </div>
+              </section>
+            </div>
           </div>
+            </>
           :
-          <div className="wrapper">
-            <p>You must be logged in to see your nutes</p>
+          <div className="mt-20 w-full h-full align-middle text-center">
+            <p className="text-4xl">You must be logged in to see your nutes</p>
+            <button className="text-xl p-2 w-auto bg-white text-gray-700 border border-0 border-gray-500 hover:border-2 hover:border-white hover:bg-gray-700 hover:text-white rounded rounded-md" onClick={this.login}>Login With Google</button>
             </div>
       }
       </div>

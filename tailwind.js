@@ -251,6 +251,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        'Inter var',
         'system-ui',
         '-apple-system',
         'BlinkMacSystemFont',
@@ -818,5 +819,7 @@ module.exports = {
     animation: ['responsive'],
   },
   corePlugins: {},
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/ui'),
+  ],
 }
