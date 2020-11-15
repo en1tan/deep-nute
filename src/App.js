@@ -1,8 +1,8 @@
 import { Transition } from "@headlessui/react";
 import React, { Component } from "react";
 import AddNute from "./components/add-nute";
-import EmailPasswordLogin from "./components/email-password-login";
 import ListNutes from "./components/list-nutes";
+import Login from "./components/login";
 import { Navbar } from './components/navbar';
 import {auth, provider} from './firebase';
 
@@ -70,12 +70,13 @@ class App extends Component {
             )}
             </Transition>
           :
-          <div className="mt-48 w-full h-screen align-middle text-center bg-gradient-to-b from-white to-purple-500">
-            <p className="text-4xl">You must be logged in to see your nutes</p>
-            <button className="text-xl p-2 w-auto bg-white text-gray-700 border border-0 border-gray-500 hover:border-2 hover:border-white hover:bg-gray-700 hover:text-white rounded rounded-md" onClick={this.login}>Login With Google</button>
-            <br />
-            <EmailPasswordLogin />
-            </div>
+        <Login />
+          //<div className="mt-48 w-full h-screen align-middle text-center bg-gradient-to-b from-white to-purple-500">
+            //<p className="text-4xl">You must be logged in to see your nutes</p>
+            //<button className="text-xl p-2 w-auto bg-white text-gray-700 border border-0 border-gray-500 hover:border-2 hover:border-white hover:bg-gray-700 hover:text-white rounded rounded-md" onClick={this.login}>Login With Google</button>
+            //<br />
+           // <EmailPasswordLogin />
+          //  </div>
       }
       </div>
     )
