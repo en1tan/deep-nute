@@ -21,6 +21,10 @@ firebase.initializeApp(config);
 
 // Add Google Auth
 export const provider = new firebase.auth.GoogleAuthProvider();
+
+// Add Email & Password signin
+export const emailPasswordProvider = new firebase.auth.EmailAuthProvider();
+
 export const auth = firebase.auth();
 
 export default firebase;
