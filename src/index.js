@@ -7,9 +7,11 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
+  <React.StrictMode>
   <div className="m-auto container max-w-full">
     <App />
-  </div>,
+    </div>
+    </React.StrictMode>,
   document.getElementById('root')
 );
 
