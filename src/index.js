@@ -8,9 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-  <div className="m-auto container max-w-full">
     <App />
-    </div>
     </React.StrictMode>,
   document.getElementById('root')
 );

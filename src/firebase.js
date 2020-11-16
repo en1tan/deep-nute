@@ -23,7 +23,22 @@ firebase.initializeApp(config);
 export const provider = new firebase.auth.GoogleAuthProvider();
 
 // Add Email & Password signin
-export const emailPasswordProvider = new firebase.auth.EmailAuthProvider();
+// export const emailPasswordProvider = new firebase.auth.EmailAuthProvider();
+
+
+// export const preferredProvider = (providerName) => {
+//   console.log(providerName);
+//   switch (providerName) {
+//     case "google":
+//       return new firebase.auth.GoogleAuthProvider()
+//     case "facebook":
+//       return new firebase.auth.FacebookAuthProvider()
+//     case "twitter":
+//       return new firebase.auth.TwitterAuthProvider()
+//       default:
+//         return new firebase.auth.EmailAuthProvider();
+//       }
+//     }
 
 export const auth = firebase.auth();
 

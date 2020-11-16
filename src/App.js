@@ -16,17 +16,7 @@ class App extends Component {
       email: '',
       password: ''
     }
-    this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-  }
-
-  // AuthFunctions
-  login() {
-    auth.signInWithPopup(provider)
-      .then((result) => {
-        const user = result.user;
-        this.setState({user, userId: user.uid});
-      });
   }
 
   logout() {
@@ -45,7 +35,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="bg-gradient-to-b from-white to-purple-500 h-screen container m-auto">
+      <div className="w-screen h-screen">
       {this.state.user ?
           <Transition
           show={true}
